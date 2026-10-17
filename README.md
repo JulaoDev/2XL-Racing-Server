@@ -19,3 +19,11 @@ We need developers experienced in *Smali compilation, JNI runtime environments, 
 - Python 3.10+
 - FastAPI & Uvicron
 - LDPlayer 9 (with ADB Debugging enabled)
+
+### 📢 COLLABORATION RULES & TO-DO LIST
+
+Please keeep the following guidelines in mind before contributing to the repository:
+
+1. **Check the current Endpoints:** Ensure your code targets `/api/Advertisements/0` and `/api/token/initialize` properly under the FastAPI framework
+2. **Focus on JSON Token Payload:** The applicationm client is highly sensitive to object casing or structure (Error 6 block). We need to reverse-engineer the expected fields.
+3. **SCREEN RECORDING REQUIRED (Crucial):** If you find a fix and submit a Pull Request, please **record your screen** showing the emulaterd game succcessfully bypassing the login layout and enterung the main menu or garage. Pull request wuthout visual proof of completion will not be merged.
