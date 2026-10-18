@@ -655,3 +655,13 @@ async def initialize_token():
         "user_id": "1"
     }
 
+@app.get("/api/profile/offline-bypass")
+async def offline_bypass():
+    # Simulated local propfile data to bypass strict server checks
+    # This structure serves as a backup if the token initialization triggers
+    return {
+        "status": "success",
+        "profile_mode": "offline_validated",
+        "save_state": "local_fallback",
+        "garage_unlock": True
+    }
