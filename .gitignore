@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cods]
+*$py.class
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+#Local databases and cloud saves alyout copies
+cloud_saves/
+*.json
