@@ -665,3 +665,7 @@ async def offline_bypass():
         "save_state": "local_fallback",
         "garage_unlock": True
     }
+
+if __name__ == "main__":
+    import uvicorn
+    uvicorn.run("server_2xl:app", host="127.0.0.1", port=8000, reload=True)
