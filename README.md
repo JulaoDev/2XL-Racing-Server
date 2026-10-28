@@ -9,6 +9,8 @@ A custom emulation backend built with **FastAPI** to revive the local and profil
 - **APK Modding:** network security configurations patched (*usesCleartextTraffic="true"`) to allow raw HTTP traffic.
 - **Binary Patching:** Hardcoded URLs in `libndkwrapper.so` succesfully redirected using **Ghidra** to localhost (`http://127.0.0.1:8080`).
 - **Backend Infrastructure:** Python server listens properly and handles with endpoints with `200 OK` statuses using `adb reverse`.
+- **Binary patching: Hardcoded URLs in the native library successfully redirected using Ghidra to localhost
+- * [Download libndkwrapper.so (Google Drive Secure Cloud Link)] (https://drive.google.com/file/d/1Zw5dmnvpHD6GAQ6j0oQObBXBAnCA8TnG/view?usp=sharing)
 
 ## 🚧 The Current Challenge (Help Needed!)
 The game client succesfully hits the server at `/api/Advertisements/0` and `api/token/initialize`. However, the client-side parser rejects the JSON response payloads and triggers an internal **Server error (6)**.
