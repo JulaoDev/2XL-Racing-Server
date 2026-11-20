@@ -641,9 +641,16 @@ async def get_advertisements(placement: str = "prelogin"):
     # Clear structure for ad response
     return []
 
-@app.get("/api/token/initialize")
+@app.api_route("/api/deviceinfo", methods=["GET", "POST"])
+async def device_info():
+    return {
+        "status": "success",
+        "registered": True,
+        "deviceToken": "ParaguayRacerToken2026"
+    }
+
+@app.api_route("/api/token/initialize", methods=["GET", "POST"])
 async def initialize_token():
-    # Full response injection covering old mobile SDK requirements
     return {
         "status": "success",
         "success": True,
@@ -655,16 +662,27 @@ async def initialize_token():
         "user_id": "1"
     }
 
-@app.get("/api/profile/offline-bypass")
-async def offline_bypass():
-    # Simulated local propfile data to bypass strict server checks
-    # This structure serves as a backup if the token initialization triggers
+@app.api_route("/api/token/authorize", methods=["GET", "POST"])
+async def authorize_token():
     return {
         "status": "success",
-        "profile_mode": "offline_validated",
-        "save_state": "local_fallback",
-        "garage_unlock": True
+        "authorized": True,
+        "token": "ParaguayRacerToken2026",
+        "sessionId": "ParaguaySession2026",
+        "userId": 1
     }
+
+@app.api_route("/api/rpc/Profile", methods=["GET", "POST"])
+async def rpc_profile():
+    return {
+        "status": "success",
+        "userId": 1,
+        "username": "JulaoDev",
+        "cash": 999999,
+        "gold": 9999,
+        "level": 50
+    }
+
 
 if __name__ == "main__":
     import uvicorn
