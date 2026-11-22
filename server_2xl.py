@@ -1,3 +1,4 @@
+import time
 import os
 import random
 import json
@@ -6,6 +7,8 @@ from fastapi import FastAPI, Request, HTTPException, Query, status
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, Response
+
 
 app = FastAPI(title="2XL Racing Mirror Server")
 
@@ -650,27 +653,130 @@ async def device_info():
     }
 
 @app.api_route("/api/token/initialize", methods=["GET", "POST"])
-async def initialize_token():
+async def initialize_token(request: Request):
     return {
-        "status": "success",
-        "success": True,
-        "token": "ParaguayRacerToken2026",
-        "authToken": "ParaguayRacerToken2026",
-        "access_token": "ParaguayRacerToken2026",
-        "tokenString": "ParaguayRacerToken2026",
-        "userId": 1,
-        "user_id": "1"
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "RequestToken": {
+            "Token": 123456789,
+            "Secret": "ParaguayRequestSecret2026"
+        }
     }
 
 @app.api_route("/api/token/authorize", methods=["GET", "POST"])
-async def authorize_token():
+async def authorize_token(request: Request):
     return {
-        "status": "success",
-        "authorized": True,
-        "token": "ParaguayRacerToken2026",
-        "sessionId": "ParaguaySession2026",
-        "userId": 1
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "AuthorizationToken": {
+            "Token": 987654321,
+            "Secret": "ParaguayAuthSecret2026"
+        }
     }
+
+@app.api_route("/api/Accounts", methods=["GET", "POST"])
+@app.api_route("/api/accounts", methods=["GET", "POST"])
+async def accounts_endpoint(request: Request):
+    print("ACCOUNTS HEADERS:", dict(request.headers))
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": {
+            "AccountFound": True,
+            "SameAccount": False,
+            "AccountId": 1,
+            "AccountSecret": "ParaguayAccountSecret2026",
+            "AccountCreated": int(time.time()),
+            "AccountLastUpdated": int(time.time())
+        },
+        "AuthorizationToken": {
+            "Token": 987654321,
+            "Secret": "ParaguayAuthSecret2026"
+        }
+    }
+
+
+@app.api_route("/api/Products", methods=["GET", "POST"])
+@app.api_route("/api/products", methods=["GET", "POST"])
+@app.api_route("/api/Products", methods=["GET", "POST"])
+@app.api_route("/api/products", methods=["GET", "POST"])
+async def products_endpoint(request: Request):
+    print("--> LLAMANDO PRODUCTS:", dict(request.query_params))
+    if request.query_params.get("binary") == "true":
+        return Response(content=b"\x00\x00\x00\x00", media_type="application/octet-stream")
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": []
+    }
+
+
+@app.api_route("/api/rpc/Profile/{player_id}/{method}", methods=["GET", "POST"])
+async def rpc_profile_method(player_id: str, method: str, request: Request):
+    print(f"--> LLAMANDO PROFILE/{player_id}/{method}")
+    return True
+
+@app.api_route("/api/VideoReplay/{method}", methods=["GET", "POST"])
+async def video_replay_method(method: str, request: Request):
+    return True
+
+@app.api_route("/api/rpc/Debug/{player_id}/{method}", methods=["GET", "POST"])
+async def rpc_debug_method(player_id: str, method: str, request: Request):
+    print("--> DEBUG HEADERS:", dict(request.headers))
+    print("--> DEBUG BODY:", await request.body())
+    return False
+
+
+@app.api_route("/api/crew-settings", methods=["GET", "POST"])
+@app.api_route("/api/CrewSettings", methods=["GET", "POST"])
+async def crew_settings_endpoint(request: Request):
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": {}
+    }
+
+@app.api_route("/api/locations", methods=["GET", "POST"])
+@app.api_route("/api/Locations", methods=["GET", "POST"])
+async def locations_endpoint(request: Request):
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": []
+    }
+
+
+
+
+@app.api_route("/api/rpc/Multiplayer/{player_id}/{method}", methods=["GET", "POST"])
+@app.api_route("/api/rpc/{service}/{player_id}/{method}", methods=["GET", "POST"])
+async def rpc_generic_method(player_id: str, method: str, request: Request, service: str = "Multiplayer"):
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": {}
+    }
+
+@app.api_route("/api/Advertisements/{player_id}", methods=["GET", "POST"])
+@app.api_route("/api/Advertisements", methods=["GET", "POST"])
+@app.api_route("/api/advertisements/{player_id}", methods=["GET", "POST"])
+@app.api_route("/api/advertisements", methods=["GET", "POST"])
+async def advertisements_endpoint(request: Request, player_id: str = "0"):
+    return {
+        "Status": 0,
+        "Message": "OK",
+        "CurrentTime": int(time.time()),
+        "value": [],
+        "Advertisements": []
+    }
+
 
 @app.api_route("/api/rpc/Profile", methods=["GET", "POST"])
 async def rpc_profile():
